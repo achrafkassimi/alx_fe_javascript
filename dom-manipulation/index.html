@@ -8,29 +8,32 @@
 <body>
   <h1>Dynamic Quote Generator</h1>
 
-    <!-- Category Filter Dropdown -->
-  <h2>Filtrer par catégorie</h2>
-  <label for="categoryFilter">Select Category:</label>
-  <select id="categoryFilter">
-    <option value="All">All</option>
-  </select>
+<!-- Zone de filtre -->
+<select id="categoryFilter" onchange="filterQuotes()">
+  <option value="All">Toutes les catégories</option>
+</select>
 
-  <!-- Display Area -->
-  <div id="quoteDisplay"></div>
-  <button id="newQuote">Show New Quote</button>
+<!-- Zone de saisie -->
+<div>
+  <input id="newQuoteText" type="text" placeholder="Entrez une citation" />
+  <input id="newQuoteCategory" type="text" placeholder="Catégorie" />
+  <button id="addQuoteBtn">Ajouter la citation</button>
+</div>
 
-  <!-- Form for Adding New Quotes -->
-  <div>
-    <input id="newQuoteText" type="text" placeholder="Enter a new quote" />
-    <input id="newQuoteCategory" type="text" placeholder="Enter quote category" />
-    <button id="addQuoteBtn">Add Quote</button>
-  </div>
+<!-- Zone d'affichage -->
+<div id="quoteDisplay"></div>
+<button id="newQuote">Afficher une citation</button>
 
+<!-- Import/export + Sync -->
+<hr />
+<h3>Import / Export</h3>
+<input type="file" id="importFile" accept=".json" onchange="importFromJsonFile(event)" />
+<button onclick="exportToJson()">Exporter les citations</button>
+<button id="syncBtn">Synchroniser avec le serveur</button>
 
-  <hr />
-  <h3>Import / Export Quotes</h3>
-  <button onclick="exportToJson()">Export Quotes</button>
-  <input type="file" id="importFile" accept=".json" onchange="importFromJsonFile(event)" />
+<!-- Notifications -->
+<div id="notif" style="display:none; margin-top:10px;"></div>
+
 
 
   <script src="script.js"></script>
