@@ -173,6 +173,50 @@ async function fetchQuotesFromServer() {
   }
 }
 
+async function syncQuotes() {
+  try {
+    const response = await fetch("https://jsonplaceholder.typicode.com/posts");
+    const serverQuotes = await response.json();
+
+    // Simuler des citations à partir des données mock
+    const formatted = serverQuotes.slice(0, 10).map(post => ({
+      id: post.id,
+      text: post.body,
+      category: post.title
+    }));
+
+    // Fusion avec les citations locales
+    const merged = [];
+    formatted.forEach(sq => {
+      const local = quotes.find(q => q.id === sq.id);
+      if (local && local.text !== sq.text) {
+        // Conflit détecté : garder la version serveur
+        console.warn(`Conflit avec id ${sq.id}, remplacement par le serveur.`);
+        merged.push(sq);
+      } else if (!local) {
+        merged.push(sq);
+      } else {
+        merged.push(local);
+      }
+    });
+
+    // Ajouter les citations locales non présentes sur le serveur
+    const newLocals = quotes.filter(q => !merged.find(m => m.id === q.id));
+    merged.push(...newLocals);
+
+    quotes = merged;
+    saveQuotes();
+    populateCategories();
+    filterQuotes();
+
+    showNotification("Synchronisation avec le serveur réussie.");
+  } catch (error) {
+    console.error("Erreur de synchronisation :", error);
+    showNotification("Échec de la synchronisation.", true);
+  }
+}
+
+
 // Résolution simple des conflits
 function promptConflict(local, server) {
   const keepServer = confirm(
@@ -192,6 +236,7 @@ function showNotification(message, isError = false) {
   notif.style.display = "block";
   setTimeout(() => notif.style.display = "none", 5000);
 }
+
 
 // Initialisation au chargement de la page
 document.addEventListener("DOMContentLoaded", () => {
@@ -213,5 +258,6 @@ document.addEventListener("DOMContentLoaded", () => {
     `;
   }
 
+  document.getElementById("syncBtn").addEventListener("click", syncQuotes);
   setInterval(fetchQuotesFromServer, 60000); // sync auto chaque minute
 });
