@@ -138,7 +138,7 @@ function importFromJsonFile(event) {
 }
 
 // Synchroniser avec le serveur simulé (GET)
-async function syncWithServer() {
+async function fetchQuotesFromServer() {
   try {
     const response = await fetch(SERVER_URL);
     const serverQuotes = await response.json();
@@ -202,7 +202,7 @@ document.addEventListener("DOMContentLoaded", () => {
   document.getElementById("newQuote").addEventListener("click", filterQuotes);
   document.getElementById("addQuoteBtn").addEventListener("click", addQuote);
   document.getElementById("categoryFilter").addEventListener("change", filterQuotes);
-  document.getElementById("syncBtn").addEventListener("click", syncWithServer);
+  document.getElementById("syncBtn").addEventListener("click", fetchQuotesFromServer);
 
   const last = sessionStorage.getItem("lastQuote");
   if (last) {
@@ -213,5 +213,5 @@ document.addEventListener("DOMContentLoaded", () => {
     `;
   }
 
-  setInterval(syncWithServer, 60000); // sync auto chaque minute
+  setInterval(fetchQuotesFromServer, 60000); // sync auto chaque minute
 });
