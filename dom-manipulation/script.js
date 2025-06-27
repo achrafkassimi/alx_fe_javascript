@@ -167,10 +167,10 @@ async function fetchQuotesFromServer() {
     populateCategories();
     filterQuotes();
 
-    showNotification("Synchronisation terminée.");
+    showNotification("Quotes synced with server!");
   } catch (err) {
-    showNotification("Erreur de synchronisation.", true);
-  }
+    console.error("Sync failed:", error);
+    showNotification("Failed to sync quotes.", true);  }
 }
 
 async function syncQuotes() {
@@ -230,12 +230,31 @@ function promptConflict(local, server) {
 
 // Affichage des notifications
 function showNotification(message, isError = false) {
-  const notif = document.getElementById("notif");
+  let notif = document.getElementById("notif");
+  if (!notif) {
+    notif = document.createElement("div");
+    notif.id = "notif";
+    notif.style.position = "fixed";
+    notif.style.bottom = "20px";
+    notif.style.right = "20px";
+    notif.style.padding = "10px 20px";
+    notif.style.borderRadius = "5px";
+    notif.style.boxShadow = "0 2px 6px rgba(0,0,0,0.2)";
+    notif.style.zIndex = "1000";
+    notif.style.color = "white";
+    notif.style.fontWeight = "bold";
+    document.body.appendChild(notif);
+  }
+
   notif.textContent = message;
-  notif.style.color = isError ? "red" : "green";
+  notif.style.backgroundColor = isError ? "red" : "green";
   notif.style.display = "block";
-  setTimeout(() => notif.style.display = "none", 5000);
+
+  setTimeout(() => {
+    notif.style.display = "none";
+  }, 4000);
 }
+
 
 
 // Initialisation au chargement de la page
