@@ -1,6 +1,36 @@
 let quotes = [];
 const SERVER_URL = "https://jsonplaceholder.typicode.com/posts";
 
+
+
+function createAddQuoteForm() {
+  const formContainer = document.createElement("div");
+  formContainer.id = "addQuoteForm";
+
+  const inputText = document.createElement("input");
+  inputText.id = "newQuoteText";
+  inputText.type = "text";
+  inputText.placeholder = "Entrez une citation";
+
+  const inputCategory = document.createElement("input");
+  inputCategory.id = "newQuoteCategory";
+  inputCategory.type = "text";
+  inputCategory.placeholder = "Entrez une catégorie";
+
+  const addButton = document.createElement("button");
+  addButton.id = "addQuoteBtn";
+  addButton.textContent = "Ajouter";
+  addButton.addEventListener("click", addQuote);
+
+  formContainer.appendChild(inputText);
+  formContainer.appendChild(inputCategory);
+  formContainer.appendChild(addButton);
+
+  document.body.appendChild(formContainer);
+}
+
+
+
 // Charger les citations et le filtre sélectionné
 function loadQuotes() {
   const stored = localStorage.getItem("quotes");
@@ -268,6 +298,8 @@ document.addEventListener("DOMContentLoaded", () => {
   loadQuotes();
   populateCategories();
   showRandomQuote();
+  createAddQuoteForm(); // ✅ dynamically injects the form
+
 
   document.getElementById("newQuote").addEventListener("click", showRandomQuote);
   document.getElementById("addQuoteBtn").addEventListener("click", addQuote);
