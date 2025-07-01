@@ -305,6 +305,7 @@ document.addEventListener("DOMContentLoaded", () => {
   document.getElementById("addQuoteBtn").addEventListener("click", addQuote);
   document.getElementById("categoryFilter").addEventListener("change", showRandomQuote);
   document.getElementById("syncBtn").addEventListener("click", fetchQuotesFromServer);
+  document.getElementById("exportBtn").addEventListener("click", exportToJson);
 
   const last = sessionStorage.getItem("lastQuote");
   if (last) {
