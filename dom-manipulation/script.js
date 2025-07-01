@@ -59,7 +59,7 @@ function filterQuotes() {
 }
 
 // ✅ Alias for autograder compatibility
-function displayRandomQuote() {
+function showRandomQuote() {
   filterQuotes();
 }
 
@@ -83,7 +83,7 @@ function addQuote() {
   quotes.push(newQuote);
   saveQuotes();
   populateCategories();
-  displayRandomQuote();
+  showRandomQuote();
 
   document.getElementById("newQuoteText").value = "";
   document.getElementById("newQuoteCategory").value = "";
@@ -134,7 +134,7 @@ function importFromJsonFile(event) {
       quotes.push(...imported);
       saveQuotes();
       populateCategories();
-      displayRandomQuote();
+      showRandomQuote();
       alert("Import réussi !");
     } catch (err) {
       alert("Fichier JSON invalide.");
@@ -171,7 +171,7 @@ async function fetchQuotesFromServer() {
     quotes = merged;
     saveQuotes();
     populateCategories();
-    displayRandomQuote();
+    showRandomQuote();
 
     showNotification("Quotes synced with server!");
   } catch (err) {
@@ -213,7 +213,7 @@ async function syncQuotes() {
     quotes = merged;
     saveQuotes();
     populateCategories();
-    displayRandomQuote();
+    showRandomQuote();
 
     showNotification("Synchronisation avec le serveur réussie.");
   } catch (error) {
@@ -267,11 +267,11 @@ function showNotification(message, isError = false) {
 document.addEventListener("DOMContentLoaded", () => {
   loadQuotes();
   populateCategories();
-  displayRandomQuote();
+  showRandomQuote();
 
-  document.getElementById("newQuote").addEventListener("click", displayRandomQuote);
+  document.getElementById("newQuote").addEventListener("click", showRandomQuote);
   document.getElementById("addQuoteBtn").addEventListener("click", addQuote);
-  document.getElementById("categoryFilter").addEventListener("change", displayRandomQuote);
+  document.getElementById("categoryFilter").addEventListener("change", showRandomQuote);
   document.getElementById("syncBtn").addEventListener("click", fetchQuotesFromServer);
 
   const last = sessionStorage.getItem("lastQuote");
